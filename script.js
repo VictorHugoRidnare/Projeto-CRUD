@@ -8,6 +8,47 @@ const btnSave = document.querySelector('#btnSave')
 let items
 let id
 
+const getItemsBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
+const setitensBD = () => localStorage.setItem('dbfunc', JSON.stringify(items)) 
+
+function loadItens(){
+    items = getItemsBD()
+    tbody.innerHTML = ''
+    items.forEach((item, index) => {
+        insertItem(item, index)
+    })
+}
+
+loadItens()
+
+function insertItem(item, index) {
+    let tr = document.createElement('tr')
+
+    tr.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.function}</td>
+        <td>${item.salary}</td>
+        <td class="action">
+            <button onclick="ediItem(${index})"><i class='bx bx-edit' ></i></button>
+        </td>
+        <td class="action">
+            <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
+        </td>
+    `
+    tbody.appendChild(tr)
+}
+
+function editItem (index) {
+
+    openModal(true, index)
+}
+
+function deleteItem(index){
+    items.splice(index, 1)
+    setitensBD()
+    loadItens()
+}
+
 function openModal (edit = false, index = 0) {
     modal.classList.add('active')
 
@@ -27,31 +68,6 @@ function openModal (edit = false, index = 0) {
         userFunction.value = ''
         userSalary.value = ''
     }
-}
-
-function editItem (index) {
-
-    openModal(true, index)
-}
-
-function deleteItem(index){
-    items.splice(index, 1)
-    setitensBD()
-    loadItens()
-}
-
-function insertItem(item, index) {
-    let tr = document.createElement('tr')
-
-    tr.innerHTML = `
-        <td>${item.name}</td>
-        <td>${item.function}</td>
-        <td>${item.salary}</td>
-        <td class="action">
-            <button onclick="deleteItem(${index})"><i i class='bx bx-edit'></i></button>
-        </td>
-    `
-    tbody.appendChild(tr)
 }
 
 btnSave.onclick = e => {
@@ -75,16 +91,3 @@ btnSave.onclick = e => {
     loadItens()
     id = undefined
 }
-
-function loadItens(){
-    items = getItemsBD()
-    tbody.innerHTML = ''
-    items.forEach((item, index) =>{
-        insertItem(item, index)
-    })
-}
-
-const getItemsBD = () => JSON.parse(localStorage.getItem('dbfunc')) ?? []
-const setitensBD = () => localStorage.setItem('dbfunc', JSON.stringify(items)) 
-
-loadItens()

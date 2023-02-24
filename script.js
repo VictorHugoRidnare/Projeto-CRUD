@@ -29,7 +29,7 @@ function insertItem(item, index) {
         <td>${item.function}</td>
         <td>${item.salary}</td>
         <td class="action">
-            <button onclick="ediItem(${index})"><i class='bx bx-edit' ></i></button>
+            <button onclick="editItem(${index})"><i class='bx bx-edit'></i></button>
         </td>
         <td class="action">
             <button onclick="deleteItem(${index})"><i class='bx bx-trash'></i></button>
@@ -78,7 +78,7 @@ btnSave.onclick = e => {
     e.preventDefault();
 
     if (id !== undefined) {
-        items[id].nome = userName.value
+        items[id].name = userName.value
         items[id].function = userFunction.value
         items[id].salary = userSalary.value
     } else {
